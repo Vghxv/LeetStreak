@@ -17,8 +17,7 @@ public:
                 j++;
             }
             else {
-                nums[i + 1] = nums[j];
-                i++;
+                nums[++i] = nums[j++];
             }
         }
 
@@ -30,7 +29,6 @@ class Testing : public testing::Test {
 public:
     Solution solution;
     void SetUp() {}
-
     void TearDown() {}
 };
 
