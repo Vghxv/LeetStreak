@@ -36,6 +36,7 @@ public:
     bool isIsomorphic2(string s, string t)
     {
         unordered_map<char, char> map;
+        unordered_set<char> values;
         for (int i = 0; i < s.size(); i++) {
             if (map.find(s[i]) == map.end()) {
                 map[s[i]] = t[i];
@@ -47,14 +48,10 @@ public:
             }
         }
         // check if the values of map are unique
-        unordered_set<char> values;
         for (const auto &[key, value] : map) {
             values.insert(value);
         }
-        if (values.size() != map.size()) {
-            return false;
-        }
-        return true;
+        return values.size() == map.size();
     }
 
     bool isIsomorphic3(string s, string t)
