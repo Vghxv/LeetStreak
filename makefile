@@ -1,5 +1,5 @@
-GXX = g++
-CXX_STANDARD = -std=c++17
+GXX = clang++
+CXX_STANDARD = -std=gnu++20
 CXXFLAGS = -g -lgtest -lgtest_main -pthread
 FILE = $(F)
 BASE_NAME = $(notdir $(FILE))
