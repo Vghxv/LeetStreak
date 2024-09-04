@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <stack>
 #include <string>
-#include <unordered_map>
 using namespace std;
 class Solution {
 public:
@@ -10,14 +9,22 @@ public:
         if (s.size() % 2 != 0) {
             return false;
         }
-        unordered_map<char, char> m = {{')', '('}, {']', '['}, {'}', '{'}};
         stack<char> st;
-        for (auto c : s) {
-            if (c == '(' || c == '{' || c == '[') {
+        for (const char &c : s) {
+            if (c == '(' || c == '[' || c == '{') {
                 st.push(c);
             }
             else {
-                if (st.empty() || st.top() != m[c]) {
+                if (st.empty()) {
+                    return false;
+                }
+                if (c == ')' && st.top() != '(') {
+                    return false;
+                }
+                if (c == ']' && st.top() != '[') {
+                    return false;
+                }
+                if (c == '}' && st.top() != '{') {
                     return false;
                 }
                 st.pop();
@@ -30,18 +37,16 @@ public:
 class Testing : public testing::Test {
 public:
     Solution s;
-    void SetUp() {}
-    void TearDown() {}
 };
 
-TEST_F(Testing, testisValid1) { EXPECT_EQ(s.isValid("()"), true); }
+TEST_F(Testing, t1) { EXPECT_EQ(s.isValid("()"), true); }
 
-TEST_F(Testing, testisValid2) { EXPECT_EQ(s.isValid("()[]{}"), true); }
+TEST_F(Testing, t2) { EXPECT_EQ(s.isValid("()[]{}"), true); }
 
-TEST_F(Testing, testisValid3) { EXPECT_EQ(s.isValid("(]"), false); }
+TEST_F(Testing, t3) { EXPECT_EQ(s.isValid("(]"), false); }
 
-TEST_F(Testing, testisValid4) { EXPECT_EQ(s.isValid("([)]"), false); }
+TEST_F(Testing, t4) { EXPECT_EQ(s.isValid("([)]"), false); }
 
-TEST_F(Testing, testisValid5) { EXPECT_EQ(s.isValid("{[]}"), true); }
+TEST_F(Testing, t5) { EXPECT_EQ(s.isValid("{[]}"), true); }
 
-TEST_F(Testing, testisValid6) { EXPECT_EQ(s.isValid("["), false); }
+TEST_F(Testing, t6) { EXPECT_EQ(s.isValid("["), false); }
