@@ -46,7 +46,6 @@ public:
     {
         ListNode *dummy = new ListNode(0);
         ListNode *p = dummy;
-        // ListNode *cycle = NULL;
         for (int i = 0; i < vec.size(); i++) {
             p->next = new ListNode(vec[i]);
             p = p->next;
@@ -61,24 +60,7 @@ public:
         delete dummy;
         return actualHead;
     }
-    void Debug(ListNode *head)
-    {
-        int count = 0;
-        // ListNode *cycleNode = NULL;
-        ListNode *p = head;
-        while (p != NULL) {
-            cout << p->val << " ";
-            p = p->next;
-            count++;
-            if (p == cycleNode) {
-                break;
-            }
-            if (count == pos) {
-                cycleNode = p;
-            }
-        }
-        cout << endl;
-    }
+
     void deleteList(ListNode *head)
     {
         ListNode *current = head;
