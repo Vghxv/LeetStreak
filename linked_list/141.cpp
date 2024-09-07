@@ -40,21 +40,22 @@ class Testing : public testing::Test {
 public:
     Solution s;
     int pos;
+    ListNode *cycleNode = NULL;
     ListNode *head;
-    ListNode *vector2list(vector<int> vec, int pos)
+    ListNode *vector2list(vector<int> vec, int position)
     {
         ListNode *dummy = new ListNode(0);
         ListNode *p = dummy;
-        ListNode *cycle = NULL;
+        // ListNode *cycle = NULL;
         for (int i = 0; i < vec.size(); i++) {
             p->next = new ListNode(vec[i]);
             p = p->next;
-            if (i == pos) {
-                cycle = p;
+            if (i == position) {
+                cycleNode = p;
             }
         }
-        if (pos != -1) {
-            p->next = cycle;
+        if (position != -1) {
+            p->next = cycleNode;
         }
         ListNode *actualHead = dummy->next;
         delete dummy;
@@ -63,7 +64,7 @@ public:
     void Debug(ListNode *head)
     {
         int count = 0;
-        ListNode *cycleNode = NULL;
+        // ListNode *cycleNode = NULL;
         ListNode *p = head;
         while (p != NULL) {
             cout << p->val << " ";
@@ -80,13 +81,15 @@ public:
     }
     void deleteList(ListNode *head)
     {
-        unordered_set<ListNode *> visited;
         ListNode *current = head;
+        bool cycle = false;
         while (current != NULL) {
-            if (visited.find(current) != visited.end()) {
-                break;
+            if (current == cycleNode) {
+                if (cycle) {
+                    break;
+                }
+                cycle = true;
             }
-            visited.insert(current);
             ListNode *nextNode = current->next;
             delete current;
             current = nextNode;
