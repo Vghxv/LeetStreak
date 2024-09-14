@@ -54,6 +54,16 @@ public:
     }
 };
 
+// Helper function to delete a tree and free memory
+void deleteTree(TreeNode *root)
+{
+    if (root == nullptr)
+        return;
+    deleteTree(root->left);
+    deleteTree(root->right);
+    delete root;
+}
+
 // Test cases
 TEST(SolutionTest, EmptyTree)
 {
@@ -67,7 +77,7 @@ TEST(SolutionTest, SingleNodeTree)
     Solution sol;
     TreeNode *root = new TreeNode(1);
     EXPECT_TRUE(sol.isSymmetric(root));
-    delete root;
+    deleteTree(root);
 }
 
 TEST(SolutionTest, SymmetricTree)
@@ -83,14 +93,7 @@ TEST(SolutionTest, SymmetricTree)
         new TreeNode(1, new TreeNode(2, new TreeNode(3), new TreeNode(4)),
                      new TreeNode(2, new TreeNode(4), new TreeNode(3)));
     EXPECT_TRUE(sol.isSymmetric(root));
-    // Clean up
-    delete root->left->left;
-    delete root->left->right;
-    delete root->left;
-    delete root->right->left;
-    delete root->right->right;
-    delete root->right;
-    delete root;
+    deleteTree(root);
 }
 
 TEST(SolutionTest, AsymmetricTree)
@@ -105,12 +108,7 @@ TEST(SolutionTest, AsymmetricTree)
     TreeNode *root = new TreeNode(1, new TreeNode(2, nullptr, new TreeNode(3)),
                                   new TreeNode(2, nullptr, new TreeNode(3)));
     EXPECT_FALSE(sol.isSymmetric(root));
-    // Clean up
-    delete root->left->right;
-    delete root->left;
-    delete root->right->right;
-    delete root->right;
-    delete root;
+    deleteTree(root);
 }
 
 TEST(SolutionTest, LeftSkewedTree)
@@ -125,10 +123,7 @@ TEST(SolutionTest, LeftSkewedTree)
     TreeNode *root =
         new TreeNode(1, new TreeNode(2, new TreeNode(3), nullptr), nullptr);
     EXPECT_FALSE(sol.isSymmetric(root));
-    // Clean up
-    delete root->left->left;
-    delete root->left;
-    delete root;
+    deleteTree(root);
 }
 
 TEST(SolutionTest, RightSkewedTree)
@@ -143,10 +138,7 @@ TEST(SolutionTest, RightSkewedTree)
     TreeNode *root =
         new TreeNode(1, nullptr, new TreeNode(2, nullptr, new TreeNode(3)));
     EXPECT_FALSE(sol.isSymmetric(root));
-    // Clean up
-    delete root->right->right;
-    delete root->right;
-    delete root;
+    deleteTree(root);
 }
 
 TEST(SolutionTest, ComplexSymmetricTree)
@@ -167,16 +159,7 @@ TEST(SolutionTest, ComplexSymmetricTree)
                      new TreeNode(2, new TreeNode(5),
                                   new TreeNode(3, nullptr, new TreeNode(4))));
     EXPECT_TRUE(sol.isSymmetric(root));
-    // Clean up
-    delete root->left->left->left;
-    delete root->left->left;
-    delete root->left->right;
-    delete root->left;
-    delete root->right->left;
-    delete root->right->right->right;
-    delete root->right->right;
-    delete root->right;
-    delete root;
+    deleteTree(root);
 }
 
 int main(int argc, char **argv)
