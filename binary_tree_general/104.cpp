@@ -36,6 +36,16 @@ public:
     }
 };
 
+// Helper function to delete a tree and free memory
+void deleteTree(TreeNode *root)
+{
+    if (root == nullptr)
+        return;
+    deleteTree(root->left);
+    deleteTree(root->right);
+    delete root;
+}
+
 // Test cases
 TEST(SolutionTest, EmptyTree)
 {
@@ -49,7 +59,7 @@ TEST(SolutionTest, SingleNodeTree)
     Solution sol;
     TreeNode *root = new TreeNode(1);
     EXPECT_EQ(sol.maxDepth(root), 1);
-    delete root;
+    deleteTree(root);
 }
 
 TEST(SolutionTest, LeftSkewedTree)
@@ -59,10 +69,7 @@ TEST(SolutionTest, LeftSkewedTree)
     TreeNode *root =
         new TreeNode(1, new TreeNode(2, new TreeNode(3), nullptr), nullptr);
     EXPECT_EQ(sol.maxDepth(root), 3);
-    // Clean up
-    delete root->left->left;
-    delete root->left;
-    delete root;
+    deleteTree(root);
 }
 
 TEST(SolutionTest, RightSkewedTree)
@@ -72,10 +79,7 @@ TEST(SolutionTest, RightSkewedTree)
     TreeNode *root =
         new TreeNode(1, nullptr, new TreeNode(2, nullptr, new TreeNode(3)));
     EXPECT_EQ(sol.maxDepth(root), 3);
-    // Clean up
-    delete root->right->right;
-    delete root->right;
-    delete root;
+    deleteTree(root);
 }
 
 TEST(SolutionTest, BalancedTree)
@@ -91,14 +95,7 @@ TEST(SolutionTest, BalancedTree)
         new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)),
                      new TreeNode(3, new TreeNode(6), new TreeNode(7)));
     EXPECT_EQ(sol.maxDepth(root), 3);
-    // Clean up
-    delete root->left->left;
-    delete root->left->right;
-    delete root->left;
-    delete root->right->left;
-    delete root->right->right;
-    delete root->right;
-    delete root;
+    deleteTree(root);
 }
 
 TEST(SolutionTest, UnbalancedTree)
@@ -116,11 +113,7 @@ TEST(SolutionTest, UnbalancedTree)
         1, new TreeNode(2, new TreeNode(3, nullptr, new TreeNode(4)), nullptr),
         nullptr);
     EXPECT_EQ(sol.maxDepth(root), 4);
-    // Clean up
-    delete root->left->left->right;
-    delete root->left->left;
-    delete root->left;
-    delete root;
+    deleteTree(root);
 }
 
 int main(int argc, char **argv)
