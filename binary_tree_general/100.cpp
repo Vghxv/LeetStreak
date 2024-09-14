@@ -39,6 +39,16 @@ public:
     }
 };
 
+// Helper function to free memory and delete a tree
+void deleteTree(TreeNode *root)
+{
+    if (root == nullptr)
+        return;
+    deleteTree(root->left);
+    deleteTree(root->right);
+    delete root;
+}
+
 TEST(SolutionTest, BothNullTrees)
 {
     Solution sol;
@@ -53,6 +63,8 @@ TEST(SolutionTest, OneNullTree)
     TreeNode *p = new TreeNode(1);
     TreeNode *q = nullptr;
     EXPECT_FALSE(sol.isSameTree(p, q));
+    deleteTree(p);
+    deleteTree(q);
 }
 
 TEST(SolutionTest, SameStructureAndValues)
@@ -61,6 +73,8 @@ TEST(SolutionTest, SameStructureAndValues)
     TreeNode *p = new TreeNode(1, new TreeNode(2), new TreeNode(3));
     TreeNode *q = new TreeNode(1, new TreeNode(2), new TreeNode(3));
     EXPECT_TRUE(sol.isSameTree(p, q));
+    deleteTree(p);
+    deleteTree(q);
 }
 
 TEST(SolutionTest, DifferentStructure)
@@ -69,6 +83,8 @@ TEST(SolutionTest, DifferentStructure)
     TreeNode *p = new TreeNode(1, new TreeNode(2), nullptr);
     TreeNode *q = new TreeNode(1, nullptr, new TreeNode(2));
     EXPECT_FALSE(sol.isSameTree(p, q));
+    deleteTree(p);
+    deleteTree(q);
 }
 
 TEST(SolutionTest, DifferentValues)
@@ -77,6 +93,8 @@ TEST(SolutionTest, DifferentValues)
     TreeNode *p = new TreeNode(1, new TreeNode(2), new TreeNode(1));
     TreeNode *q = new TreeNode(1, new TreeNode(1), new TreeNode(2));
     EXPECT_FALSE(sol.isSameTree(p, q));
+    deleteTree(p);
+    deleteTree(q);
 }
 
 int main(int argc, char **argv)
