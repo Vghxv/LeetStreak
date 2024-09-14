@@ -38,3 +38,49 @@ public:
         return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
     }
 };
+
+TEST(SolutionTest, BothNullTrees)
+{
+    Solution sol;
+    TreeNode *p = nullptr;
+    TreeNode *q = nullptr;
+    EXPECT_TRUE(sol.isSameTree(p, q));
+}
+
+TEST(SolutionTest, OneNullTree)
+{
+    Solution sol;
+    TreeNode *p = new TreeNode(1);
+    TreeNode *q = nullptr;
+    EXPECT_FALSE(sol.isSameTree(p, q));
+}
+
+TEST(SolutionTest, SameStructureAndValues)
+{
+    Solution sol;
+    TreeNode *p = new TreeNode(1, new TreeNode(2), new TreeNode(3));
+    TreeNode *q = new TreeNode(1, new TreeNode(2), new TreeNode(3));
+    EXPECT_TRUE(sol.isSameTree(p, q));
+}
+
+TEST(SolutionTest, DifferentStructure)
+{
+    Solution sol;
+    TreeNode *p = new TreeNode(1, new TreeNode(2), nullptr);
+    TreeNode *q = new TreeNode(1, nullptr, new TreeNode(2));
+    EXPECT_FALSE(sol.isSameTree(p, q));
+}
+
+TEST(SolutionTest, DifferentValues)
+{
+    Solution sol;
+    TreeNode *p = new TreeNode(1, new TreeNode(2), new TreeNode(1));
+    TreeNode *q = new TreeNode(1, new TreeNode(1), new TreeNode(2));
+    EXPECT_FALSE(sol.isSameTree(p, q));
+}
+
+int main(int argc, char **argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
