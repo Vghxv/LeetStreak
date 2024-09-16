@@ -35,20 +35,13 @@ public:
         if (left == nullptr || right == nullptr) {
             return false;
         }
-        return (left->val == right->val) &&
-               isMirror(left->left, right->right) &&
-               isMirror(left->right, right->left);
+        return isMirror(left->left, right->right) &&
+               isMirror(left->right, right->left) && left->val == right->val;
     }
     bool isSymmetric(TreeNode *root)
     {
         if (root == nullptr) {
             return true;
-        }
-        if (root->left == nullptr && root->right == nullptr) {
-            return true;
-        }
-        if (root->left == nullptr || root->right == nullptr) {
-            return false;
         }
         return isMirror(root->left, root->right);
     }
