@@ -10,7 +10,7 @@ public:
         Node() {}
         Node(string str) : _string(str) {}
     };
-    inline Node *ingraph(Node *graph, string &str, vector<Node *> &visited)
+    inline Node *isInGraph(Node *graph, string &str, vector<Node *> &visited)
     {
         if (graph == nullptr) {
             return nullptr;
@@ -24,7 +24,7 @@ public:
                 visited.end()) {
                 continue;
             }
-            Node *result = ingraph(neighbor.first, str, visited);
+            Node *result = isInGraph(neighbor.first, str, visited);
             if (result != nullptr) {
                 return result;
             }
@@ -46,11 +46,10 @@ public:
                 visited.end()) {
                 continue;
             }
-            res *= neighbor.second;
             if (dfs(graph, str, neighbor.first, res, visited)) {
+                res *= neighbor.second;
                 return true;
             }
-            res /= neighbor.second;
         }
         return false;
     }
@@ -66,7 +65,7 @@ public:
             visited.clear();
             bool flag1 = false;
             bool flag2 = false;
-            Node *node1 = ingraph(graph, (*itE)[0], visited);
+            Node *node1 = isInGraph(graph, (*itE)[0], visited);
             if (node1 == nullptr) {
                 Node *node = new Node();
                 node->_string = (*itE)[0];
@@ -74,7 +73,7 @@ public:
                 flag1 = true;
             }
             visited.clear();
-            Node *node2 = ingraph(graph, (*itE)[1], visited);
+            Node *node2 = isInGraph(graph, (*itE)[1], visited);
             if (node2 == nullptr) {
                 Node *node = new Node();
                 node->_string = (*itE)[1];
@@ -100,9 +99,13 @@ public:
             string &str1 = query[0];
             string &str2 = query[1];
             visited.clear();
-            Node *node = ingraph(graph, str1, visited);
+            Node *node = isInGraph(graph, str1, visited);
             if (node == nullptr) {
                 result.push_back(-1);
+                continue;
+            }
+            if (str1 == str2) {
+                result.push_back(1);
                 continue;
             }
             double res = 1;
