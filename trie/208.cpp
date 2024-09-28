@@ -47,7 +47,7 @@ public:
         return;
     }
 
-    inline Node *searchForWord(string word)
+    bool search(string word)
     {
         Node *node = root;
         for (char &c : word) {
@@ -60,19 +60,30 @@ public:
                 }
             }
             if (!found) {
-                return nullptr;
+                return false;
             }
         }
-        return node;
+        return node->_isWord;
     }
-    bool search(string word)
+
+    bool startsWith(string prefix)
     {
-        Node *node = searchForWord(word);
-
-        return node != nullptr ? node->_isWord : false;
+        Node *node = root;
+        for (char &c : prefix) {
+            bool found = false;
+            for (auto &child : node->childs) {
+                if (child->_c == c) {
+                    node = child;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
     }
-
-    bool startsWith(string prefix) { return searchForWord(prefix) != nullptr; }
 };
 
 /**
