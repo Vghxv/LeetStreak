@@ -4,21 +4,27 @@ using namespace std;
 
 class Solution {
 public:
-    inline vector<vector<int>> solve(int n, int k, int start)
+    void solve(int n, int k, int start, vector<int> &combination,
+               vector<vector<int>> &res)
     {
         if (k == 0) {
-            return {{}};
+            res.push_back(combination);
+            return;
         }
-        vector<vector<int>> res;
         for (int i = start; i <= n; i++) {
-            for (auto &v : solve(n, k - 1, i + 1)) {
-                v.insert(v.begin(), i);
-                res.push_back(v);
-            }
+            combination.push_back(i);
+            solve(n, k - 1, i + 1, combination, res);
+            combination.pop_back();
         }
+    }
+
+    vector<vector<int>> combine(int n, int k)
+    {
+        vector<vector<int>> res;
+        vector<int> combination;
+        solve(n, k, 1, combination, res);
         return res;
     }
-    vector<vector<int>> combine(int n, int k) { return solve(n, k, 1); }
 };
 
 TEST(CombineTest, HandlesBaseCase)
