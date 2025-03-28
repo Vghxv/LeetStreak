@@ -1,1 +1,1 @@
--std=gnu++20
+-std=gnu++23
