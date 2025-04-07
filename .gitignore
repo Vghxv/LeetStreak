@@ -1,3 +1,4 @@
 /bin
 *gdb_history
 *peda-session-*
+/exp
